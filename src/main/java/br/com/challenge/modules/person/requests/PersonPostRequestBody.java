@@ -1,5 +1,6 @@
 package br.com.challenge.modules.person.requests;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +14,8 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PersonPostRequestBody {
-
+    @JsonIgnore
+    private Long id;
     @NotNull(message = "Name Cannot Be Null")
     private String fullName;
     @NotNull(message = "Cpf Cannot Be Null")
