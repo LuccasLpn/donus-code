@@ -1,0 +1,33 @@
+server:
+  error:
+    include-stacktrace: on_param
+  servlet:
+    context-path: /challenge
+  port: '7079'
+spring:
+  application:
+    name: springBoot
+  datasource:
+    url: jdbc:postgresql://localhost:7078/challenge
+    username: challenge
+    password: challenge
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss.SSS
+    time-zone: UTC
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info, health, metrics, prometheus
+jwt:
+  secret: 8pxTH7h8yk@8#jAZjDGaHv%d%fWqUr9zR!4WTzbJ
+  expiration: 19999999

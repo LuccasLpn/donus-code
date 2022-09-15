@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="br.com.challenge.modules.person.requests.PersonPostRequestBodyTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2022-09-15T19:07:19" hostname="pop-os" time="0.002">
+  <properties/>
+  <testcase name="getCpf()" classname="br.com.challenge.modules.person.requests.PersonPostRequestBodyTest" time="0.001"/>
+  <testcase name="getFullName()" classname="br.com.challenge.modules.person.requests.PersonPostRequestBodyTest" time="0.0"/>
+  <testcase name="getAuthorities()" classname="br.com.challenge.modules.person.requests.PersonPostRequestBodyTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
