@@ -21,13 +21,10 @@ public class AccountController {
 
     private final AccountService accountService;
 
-    private final JwtUtil jwtUtil;
-
-
     @PostMapping(path = {"/create"})
     public ResponseEntity<AccountCreatePostRequestBody> createAccount(@RequestBody @Valid AccountCreatePostRequestBody accountCreatePostRequestBody) {
         AccountCreatePostRequestBody accountResponse = accountService.createAccount(accountCreatePostRequestBody);
-        return new ResponseEntity<>(accountResponse, HttpStatus.CREATED);
+        return new ResponseEntity<>(accountResponse, HttpStatus.OK);
     }
 
     @PostMapping(path = {"/deposit"})
@@ -44,9 +41,8 @@ public class AccountController {
 
     @PutMapping(path = {"/transfer"})
     public ResponseEntity<Void> transfer(@RequestBody @Valid AccountPutRequestBody accountPutRequestBody, HttpServletRequest request) {
+        JwtUtil jwtUtil = new JwtUtil();
         Claims claims = jwtUtil.getClaims(request.getHeader("Authorization").replace("Bearer ", ""));
         accountService.transfer(accountPutRequestBody, claims.get("fullname").toString(), claims.get("cpf").toString());
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);}
 }
