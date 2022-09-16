@@ -29,8 +29,6 @@ Nsrc/main/java/br/com/challenge/modules/person/controller/PersonController.java
 Ssrc/main/java/br/com/challenge/modules/security/service/UserDetailsServiceImpl.java,0/8/088abc527a2552571184af5def52e795685bb16c
 s
 Csrc/main/java/br/com/challenge/modules/security/config/JwtUtil.java,f/2/f2dbc89cbcbfee6c4bf5dbdbf13be19d52668fb1
-€
-Psrc/main/java/br/com/challenge/modules/account/repository/AccountRepository.java,6/3/63536967f5a9ce90ce239c61ef30792eb4d0bb6a
 y
 Isrc/main/java/br/com/challenge/modules/exception/BadRequestException.java,c/a/ca1db2b5b0d3ef9b38cb5ccffbd6c58d5a958ce2
 x
@@ -38,5 +36,3 @@ Hsrc/main/java/br/com/challenge/modules/handler/RestExceptionHandler.java,0/e/0
 :
 
 Dockerfile,6/6/6651ddff6eb82c840ced7c1dddee15c6e1913dd4
-r
-Bsrc/main/java/br/com/challenge/modules/account/entity/Account.java,7/d/7d5ba570bea7c9c18eeb4af587e1018539cec2ce

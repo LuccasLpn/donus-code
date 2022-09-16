@@ -1,7 +1,9 @@
 package br.com.challenge.modules.account.controller;
 
+import br.com.challenge.modules.account.entity.Account;
 import br.com.challenge.modules.account.requests.AccountCreatePostRequestBody;
 import br.com.challenge.modules.account.requests.AccountPutRequestBody;
+import br.com.challenge.modules.account.response.BalanceResponse;
 import br.com.challenge.modules.account.service.AccountService;
 import br.com.challenge.modules.security.config.JwtUtil;
 import io.jsonwebtoken.Claims;
@@ -50,6 +52,14 @@ public class AccountController {
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         accountService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping(path = {"/balance"})
+    public ResponseEntity<BalanceResponse> findBalance(HttpServletRequest request){
+        JwtUtil jwtUtil = new JwtUtil();
+        Claims claims = jwtUtil.getClaims(request.getHeader("Authorization").replace("Bearer ", ""));
+        BalanceResponse accountResponse = accountService.findBalance(claims.get("fullname").toString());
+        return new ResponseEntity<>(accountResponse, HttpStatus.OK);
     }
 
 }

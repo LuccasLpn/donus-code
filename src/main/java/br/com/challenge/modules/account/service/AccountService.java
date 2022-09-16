@@ -5,6 +5,7 @@ import br.com.challenge.modules.account.mapper.AccountMapper;
 import br.com.challenge.modules.account.repository.AccountRepository;
 import br.com.challenge.modules.account.requests.AccountCreatePostRequestBody;
 import br.com.challenge.modules.account.requests.AccountPutRequestBody;
+import br.com.challenge.modules.account.response.BalanceResponse;
 import br.com.challenge.modules.exception.BadRequestException;
 import br.com.challenge.modules.exception.PSQLException;
 import br.com.challenge.modules.person.entity.Person;
@@ -14,6 +15,8 @@ import br.com.challenge.modules.util.GenerationAgency;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -64,6 +67,13 @@ public class AccountService {
     }
     public void delete(Long id){
         accountRepository.delete(findByIdOrThrowBadRequestException(id));
+    }
+
+    public BalanceResponse findBalance(String fullname){
+        return BalanceResponse.builder()
+                .balance(accountRepository.findByBalance(fullname).orElseThrow(() -> new RuntimeException("Account Not Found")).getBalance())
+                .date(LocalDateTime.now())
+                .build();
     }
 
 }

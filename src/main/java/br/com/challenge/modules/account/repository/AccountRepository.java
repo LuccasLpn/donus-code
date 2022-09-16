@@ -36,5 +36,12 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
             """, nativeQuery = true)
     Optional<Account> findByFullNameAndCpf(String fullname, String cpf, Long value);
 
+    @Query(value = """
+        select ba.id, ba.agency, ba.account, ba.balance, ba.person_id from bank_account as ba
+        left join person p on p.id = ba.person_id
+        where p.full_name = :fullname
+        """, nativeQuery = true)
+    Optional<Account> findByBalance(String fullname);
+
     Optional<Account> findByAgencyAndAccount(String agency, String account);
 }
