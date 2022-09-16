@@ -9,7 +9,6 @@ import br.com.challenge.modules.person.requests.PersonPutRequestBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,34 +21,36 @@ public class PersonService {
     private final PersonRepository personRepository;
 
     @Transactional
-    public Person save(PersonPostRequestBody personPostRequestBody){
+    public Person save(PersonPostRequestBody personPostRequestBody) {
         Person convertDtoToEntity = PersonMapper.INSTANCE.toPerson(personPostRequestBody);
         return personRepository.save(convertDtoToEntity);
     }
 
-    public Person findByFullNameAndCpf(PersonPostRequestBody personPostRequestBody){
+    public Person findByFullNameAndCpf(PersonPostRequestBody personPostRequestBody) {
         return personRepository.findByFullNameAndCpf(personPostRequestBody.getFullName(),
                 personPostRequestBody.getCpf()).orElseThrow(() -> new BadRequestException("Person not Found"));
     }
-    public void update(PersonPutRequestBody personPutRequestBody){
+
+    public void update(PersonPutRequestBody personPutRequestBody) {
         Person personSaved = findByIdOrThrowBadRequestException(personPutRequestBody.getId());
         Person personUpdate = PersonMapper.INSTANCE.toPerson(personPutRequestBody);
         personUpdate.setId(personSaved.getId());
         personRepository.save(personUpdate);
     }
-    public void delete(Long id){
+
+    public void delete(Long id) {
         personRepository.delete(findByIdOrThrowBadRequestException(id));
     }
-    public Person findByIdOrThrowBadRequestException(Long id){
-        return personRepository.findById(id)
-                .orElseThrow(() -> new BadRequestException("Person not Found"));
+
+    public Person findByIdOrThrowBadRequestException(Long id) {
+        return personRepository.findById(id).orElseThrow(() -> new BadRequestException("Person Not Found"));
     }
 
-    public Page<Person> findAllPageable(Pageable pageable){
+    public Page<Person> findAllPageable(Pageable pageable) {
         return personRepository.findAll(pageable);
     }
 
-    public List<Person> findAllNonPageable(){
+    public List<Person> findAllNonPageable() {
         return personRepository.findAll();
     }
 

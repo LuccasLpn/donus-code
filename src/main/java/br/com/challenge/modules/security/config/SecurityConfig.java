@@ -24,13 +24,12 @@ public class SecurityConfig {
 
     public final JwtUtil jwtUtil;
     private final UserDetailsServiceImpl userService;
-    private final PasswordEncoder passwordEncoder;
+
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        AuthenticationManagerBuilder authenticationManagerBuilder =
-                http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.userDetailsService(userService).passwordEncoder(passwordEncoder);
+        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder.userDetailsService(userService);
         http.csrf().disable().authorizeRequests()
                 .mvcMatchers(HttpMethod.POST, "/auth").permitAll()
                 .mvcMatchers(HttpMethod.POST, "/account/create").permitAll()

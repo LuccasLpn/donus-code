@@ -89,11 +89,6 @@ class AccountServiceTest {
         Assertions.assertThat(accountDeposit.getValue()).isNotNull().isEqualTo(value);
     }
 
-    @Test
-    @DisplayName("Transfer Persist Account When Successful")
-    void transfer_Persist_Person_When_SucessFull() {
-        Assertions.assertThatCode(() -> accountService.transfer(AccountCreator.createAccountPutRequestBody(), "Luccas Pereira Nunes", "48188562823"));
-    }
 
     @Test
     @DisplayName("FindByIdOrThrowBadRequestException")

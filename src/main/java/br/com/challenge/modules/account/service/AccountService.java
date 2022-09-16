@@ -9,13 +9,12 @@ import br.com.challenge.modules.account.response.BalanceResponse;
 import br.com.challenge.modules.exception.BadRequestException;
 import br.com.challenge.modules.exception.PSQLException;
 import br.com.challenge.modules.person.entity.Person;
-import br.com.challenge.modules.security.config.JwtUtil;
-import br.com.challenge.modules.util.GenerationAccount;
-import br.com.challenge.modules.util.GenerationAgency;
+import br.com.challenge.modules.util.Generation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 
 @Service
@@ -23,18 +22,15 @@ import java.time.LocalDateTime;
 public class AccountService {
     private final AccountRepository accountRepository;
 
-    private final JwtUtil jwtUtil;
-
     @Transactional
     public AccountCreatePostRequestBody createAccount(AccountCreatePostRequestBody accountCreatePostRequestBody) {
-        String generationAgency = new GenerationAgency().agencyGeneration();
-        String generationAccount = new GenerationAccount().accountGeneration();
+        Generation generation = new Generation();
         Person person = AccountMapper.INSTANCE.toPerson(accountCreatePostRequestBody);
         person.setAuthorities("USER");
         Account account = Account
                 .builder()
-                .agency(generationAgency)
-                .account(generationAccount)
+                .agency(generation.agencyGeneration())
+                .account(generation.accountGeneration())
                 .balance(0L)
                 .person(person)
                 .build();
@@ -52,15 +48,15 @@ public class AccountService {
                 account.getAgency(),
                 account.getAccount()).orElseThrow(() -> new PSQLException("Withdraw failed"));
         return account;}
+
     @Transactional
     public void transfer(AccountPutRequestBody account, String fullname, String cpf) {
-        Account accountOut = accountRepository.findByFullNameAndCpf(fullname, cpf, account.getValue()).orElseThrow(() -> new BadRequestException("Agency or Account or Value not found"));
+        Account accountOut = accountRepository.findByFullNameAndCpf(fullname, cpf, account.getValue()).orElseThrow(() -> new BadRequestException("Agency or Count Not Found"));
         accountOut.setBalance(accountOut.getBalance() - account.getValue());
-        Account accountInto = accountRepository.findByAgencyAndAccount(account.getAgency(), account.getAccount())
-                .orElseThrow(() -> new BadRequestException("Agency or Account not found"));
-        accountInto.setBalance(accountInto.getBalance() + account.getValue());
+        Account accountIn = accountRepository.findByAgencyAndAccount(account.getAgency(), account.getAccount()).orElseThrow(() -> new BadRequestException("Agency or Count Not Found"));
+        accountIn.setBalance(accountIn.getBalance() + account.getValue());
+        accountRepository.save(accountIn);
         accountRepository.save(accountOut);
-        accountRepository.save(accountInto);
     }
     public Account findByIdOrThrowBadRequestException(Long id) {
         return accountRepository.findById(id).orElseThrow(() -> new BadRequestException("Account Not Found"));
