@@ -18,7 +18,7 @@ class AccountRepositoryTest {
     private AccountRepository accountRepository;
 
     @Test
-    @DisplayName("Save Persist Account When SucessFull")
+    @DisplayName("Save Persist Account When Successful")
     void save_Persist_Account_When_SucessFull() {
         Account account = AccountCreator.createAccountToBeSaved();
         Account accountSaved = accountRepository.save(account);
@@ -28,7 +28,7 @@ class AccountRepositoryTest {
     }
 
     @Test
-    @DisplayName("Save Update Account When SucessFull")
+    @DisplayName("Save Update Account When Successful")
     void save_Update_Account_When_SucessFull() {
         Account account = AccountCreator.createAccountToBeSaved();
         Account accountSaved = accountRepository.save(account);

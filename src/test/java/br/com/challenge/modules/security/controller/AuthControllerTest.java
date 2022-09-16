@@ -46,7 +46,7 @@ class AuthControllerTest {
 
 
     @Test
-    @DisplayName("Login When SucessFull")
+    @DisplayName("Login When Successful")
     void Login_When_SucessFull() {
         BDDMockito.when(personService.findByFullNameAndCpf(ArgumentMatchers.any(PersonPostRequestBody.class)))
                 .thenReturn(PersonCreator.createPersonValid());

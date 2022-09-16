@@ -35,6 +35,7 @@ public class SecurityConfig {
                 .mvcMatchers(HttpMethod.POST, "/auth").permitAll()
                 .mvcMatchers(HttpMethod.POST, "/account/create").permitAll()
                 .mvcMatchers(HttpMethod.DELETE, "/person/delete/**").hasAuthority("ADMIN")
+                .mvcMatchers(HttpMethod.DELETE, "/account/delete/**").hasAuthority("ADMIN")
                 .mvcMatchers("/swagger-ui/**").permitAll()
                 .mvcMatchers("/v3/api-docs/**").permitAll()
                 .anyRequest().authenticated();

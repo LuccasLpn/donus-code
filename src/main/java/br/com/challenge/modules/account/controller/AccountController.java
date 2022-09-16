@@ -44,5 +44,12 @@ public class AccountController {
         JwtUtil jwtUtil = new JwtUtil();
         Claims claims = jwtUtil.getClaims(request.getHeader("Authorization").replace("Bearer ", ""));
         accountService.transfer(accountPutRequestBody, claims.get("fullname").toString(), claims.get("cpf").toString());
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);}
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+    @DeleteMapping(path = {"/delete/{id}"})
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
+        accountService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
 }

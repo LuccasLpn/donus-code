@@ -21,7 +21,7 @@ class PersonRepositoryTest{
     private PersonRepository personRepository;
 
     @Test
-    @DisplayName("Save Persist Person When SucessFull")
+    @DisplayName("Save Persist Person When Successful")
     void save_Persist_Person_When_SucessFull(){
         Person person = PersonCreator.createPersonToBeSaved();
         Person personSaved = personRepository.save(person);
@@ -30,7 +30,7 @@ class PersonRepositoryTest{
     }
 
     @Test
-    @DisplayName("Save Update Person When SucessFull")
+    @DisplayName("Save Update Person When Successful")
     void save_Update_Person_When_SucessFull(){
         Person person = PersonCreator.createPersonToBeSaved();
         Person personSaved = personRepository.save(person);

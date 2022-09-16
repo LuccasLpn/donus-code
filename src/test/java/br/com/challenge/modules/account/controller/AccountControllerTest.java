@@ -58,10 +58,12 @@ class AccountControllerTest {
 
         BDDMockito.doNothing().when(accountService).transfer(ArgumentMatchers.any(AccountPutRequestBody.class),
                 ArgumentMatchers.anyString(), ArgumentMatchers.anyString());
+
+        BDDMockito.doNothing().when(accountService).delete(ArgumentMatchers.anyLong());
     }
 
     @Test
-    @DisplayName("Saved Persist Account When SucessFull")
+    @DisplayName("Saved Persist Account When Successful")
     void saved_Persist_Account_When_SucessFull() {
         AccountCreatePostRequestBody expected = AccountCreator.createAccountCreatePostRequestBody();
         AccountCreatePostRequestBody account = accountController.createAccount(AccountCreator.createAccountCreatePostRequestBody()).getBody();
@@ -71,7 +73,7 @@ class AccountControllerTest {
     }
 
     @Test
-    @DisplayName("Withdraw Persist Account When SucessFull")
+    @DisplayName("Withdraw Persist Account When Successful")
     void withdraw_Persist_Person_When_SucessFull() {
         ResponseEntity<AccountPutRequestBody> entity = accountController.withdraw(AccountCreator.createAccountPutRequestBody());
         Assertions.assertThat(entity).isNotNull();
@@ -79,7 +81,7 @@ class AccountControllerTest {
     }
 
     @Test
-    @DisplayName("Deposit Persist Account When SucessFull")
+    @DisplayName("Deposit Persist Account When Successful")
     void deposit_Persist_Person_When_SucessFull() {
         ResponseEntity<AccountPutRequestBody> entity = accountController.deposit(AccountCreator.createAccountPutRequestBody());
         Assertions.assertThat(entity).isNotNull();
@@ -87,10 +89,19 @@ class AccountControllerTest {
     }
 
     @Test
-    @DisplayName("Transfer Persist Account When SucessFull")
+    @DisplayName("Transfer Persist Account When Successful")
     void transfer_Persist_Person_When_SucessFull() {
         Assertions.assertThatCode(() -> accountController.transfer(AccountCreator.createAccountPutRequestBody(), request)).doesNotThrowAnyException();
         ResponseEntity<Void> entity = accountController.transfer(AccountCreator.createAccountPutRequestBody(), request);
+        Assertions.assertThat(entity).isNotNull();
+        Assertions.assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+    }
+
+    @Test
+    @DisplayName("Delete Account When Sucessful")
+    void delete_Account_When_SucessFull() {
+        Assertions.assertThatCode(() -> accountController.delete(1L)).doesNotThrowAnyException();
+        ResponseEntity<Void> entity = accountController.delete(1L);
         Assertions.assertThat(entity).isNotNull();
         Assertions.assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
     }

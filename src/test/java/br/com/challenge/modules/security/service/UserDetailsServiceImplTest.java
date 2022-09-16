@@ -33,7 +33,7 @@ class UserDetailsServiceImplTest {
     }
 
     @Test
-    @DisplayName("loadUserByUsername When SucessFull")
+    @DisplayName("loadUserByUsername When Successful")
     void loadUserByUsername_When_SucessFull() {
         Person expected = PersonCreator.createPersonValid();
         UserDetails userDetails = userDetailsService.loadUserByUsername("Luccas Pereira Nunes");

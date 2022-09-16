@@ -52,10 +52,12 @@ class AccountServiceTest {
         BDDMockito.when(accountRepository.findByAgencyAndAccount(ArgumentMatchers.anyString(),ArgumentMatchers.anyString()))
                 .thenReturn(Optional.of(AccountCreator.createAccountToValid()));
 
+        BDDMockito.doNothing().when(accountRepository).delete(ArgumentMatchers.any(Account.class));
+
     }
 
     @Test
-    @DisplayName("Saved Persist Account When SucessFull")
+    @DisplayName("Saved Persist Account When Successful")
     void saved_Persist_Account_When_SucessFull() {
         Person person = PersonCreator.createPersonToBeSaved();
         AccountCreatePostRequestBody accountCreate = accountService.createAccount(AccountCreator.createAccountCreatePostRequestBody());
@@ -65,7 +67,7 @@ class AccountServiceTest {
     }
 
     @Test
-    @DisplayName("Withdraw Persist Account When SucessFull")
+    @DisplayName("Withdraw Persist Account When Successful")
     void withdraw_Persist_Person_When_SucessFull() {
         var value =  3000 - 1500;
         Account expected = AccountCreator.createAccountToValid();
@@ -76,7 +78,7 @@ class AccountServiceTest {
     }
 
     @Test
-    @DisplayName("Deposit Persist Account When SucessFull")
+    @DisplayName("Deposit Persist Account When Successful")
     void deposit_Persist_Person_When_SucessFull() {
         var value =  1500;
         Account expected = AccountCreator.createAccountToValid();
@@ -88,9 +90,26 @@ class AccountServiceTest {
     }
 
     @Test
-    @DisplayName("Transfer Persist Account When SucessFull")
+    @DisplayName("Transfer Persist Account When Successful")
     void transfer_Persist_Person_When_SucessFull() {
         Assertions.assertThatCode(() -> accountService.transfer(AccountCreator.createAccountPutRequestBody(), "Luccas Pereira Nunes", "48188562823"));
     }
+
+    @Test
+    @DisplayName("FindByIdOrThrowBadRequestException")
+    void findByIdOrThrowBadRequestException() {
+        Account expected = AccountCreator.createAccountToValid();
+        Account account = accountService.findByIdOrThrowBadRequestException(1L);
+        Assertions.assertThat(account).isNotNull();
+        Assertions.assertThat(account.getId()).isNotNull().isEqualTo(expected.getId());
+    }
+
+    @Test
+    @DisplayName("Delete Account When Successful")
+    void delete_Account_When_SucessFull() {
+        Assertions.assertThatCode(() -> accountService.delete(1L)).doesNotThrowAnyException();
+        ;
+    }
+
 
 }

@@ -9,8 +9,6 @@ o
 ?src/test/java/br/com/challenge/modules/util/AccountCreator.java,c/e/ce9dfaf4df537af3db8162025dae6aad1e7efcba
 |
 Lsrc/test/java/br/com/challenge/modules/person/service/PersonServiceTest.java,7/e/7e3618a85fcc8336283c87588c86cac0e8008e21
-~
-Nsrc/test/java/br/com/challenge/modules/account/service/AccountServiceTest.java,2/a/2a9bbd014c36e6b0a4bd74931c456fce5bece9a6
 w
 Gsrc/test/java/br/com/challenge/modules/security/config/JwtUtilTest.java,8/a/8abbb4a3abc7a0e5bf0da9c7e3b4942529549991
 ‡
@@ -19,8 +17,6 @@ Wsrc/test/java/br/com/challenge/modules/security/service/UserDetailsServiceImplT
 Rsrc/test/java/br/com/challenge/modules/person/controller/PersonControllerTest.java,1/2/12d4490cc018c747fb010fcedbb6669c359e5c26
 ‚
 Rsrc/test/java/br/com/challenge/modules/security/controller/AuthControllerTest.java,0/c/0cc7761d11e645b8659493d708b55c1d72409eef
-„
-Tsrc/test/java/br/com/challenge/modules/account/controller/AccountControllerTest.java,f/d/fd3fb4590083e0f9bedabc39e689df541d340c68
 <
 build.gradle,f/0/f07866736216be0ee2aba49e392191aeae700a35
 x
@@ -35,10 +31,6 @@ s
 Csrc/main/java/br/com/challenge/modules/security/config/JwtUtil.java,f/2/f2dbc89cbcbfee6c4bf5dbdbf13be19d52668fb1
 €
 Psrc/main/java/br/com/challenge/modules/account/repository/AccountRepository.java,6/3/63536967f5a9ce90ce239c61ef30792eb4d0bb6a
-z
-Jsrc/main/java/br/com/challenge/modules/account/service/AccountService.java,2/3/230d565cdcb4e5e1cd5d68254158a2c444020881
-€
-Psrc/main/java/br/com/challenge/modules/account/controller/AccountController.java,3/6/365254ff0bf0c37927a921191e875e2ace6c3748
 y
 Isrc/main/java/br/com/challenge/modules/exception/BadRequestException.java,c/a/ca1db2b5b0d3ef9b38cb5ccffbd6c58d5a958ce2
 x

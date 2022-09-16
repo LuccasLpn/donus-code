@@ -59,7 +59,7 @@ class PersonServiceTest {
     }
 
     @Test
-    @DisplayName("Saved Persist Person When SucessFull")
+    @DisplayName("Saved Persist Person When Successful")
     void saved_Persist_Person_When_SucessFull() {
         Person expected = PersonCreator.createPersonValid();
         Person person = personService.save(PersonCreator.createPersonPostRequestBody());
@@ -70,7 +70,7 @@ class PersonServiceTest {
     }
 
     @Test
-    @DisplayName("Update Person When SucessFull")
+    @DisplayName("Update Person When Successful")
     void update_Person_When_SucessFull() {
         Assertions.assertThatCode(()-> personService.update(PersonCreator.createPersonPutRequestBody()));
     }

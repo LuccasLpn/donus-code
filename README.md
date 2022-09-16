@@ -1,4 +1,4 @@
-# donus-code
+# donus code challenge
 
 ## Construído com as seguintes tecnologias
 ```

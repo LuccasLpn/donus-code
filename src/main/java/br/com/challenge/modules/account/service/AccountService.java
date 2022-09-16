@@ -59,4 +59,11 @@ public class AccountService {
         accountRepository.save(accountOut);
         accountRepository.save(accountInto);
     }
+    public Account findByIdOrThrowBadRequestException(Long id) {
+        return accountRepository.findById(id).orElseThrow(() -> new BadRequestException("Account Not Found"));
+    }
+    public void delete(Long id){
+        accountRepository.delete(findByIdOrThrowBadRequestException(id));
+    }
+
 }
