@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="br.com.challenge.modules.security.dto.GenerationTokenTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2022-09-15T22:41:18" hostname="pop-os" time="0.002">
+<testsuite name="br.com.challenge.modules.security.dto.GenerationTokenTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2022-09-16T01:28:27" hostname="pop-os" time="0.001">
   <properties/>
   <testcase name="getCpf()" classname="br.com.challenge.modules.security.dto.GenerationTokenTest" time="0.0"/>
-  <testcase name="getExp()" classname="br.com.challenge.modules.security.dto.GenerationTokenTest" time="0.001"/>
+  <testcase name="getExp()" classname="br.com.challenge.modules.security.dto.GenerationTokenTest" time="0.0"/>
   <testcase name="getFullname()" classname="br.com.challenge.modules.security.dto.GenerationTokenTest" time="0.0"/>
-  <testcase name="getId()" classname="br.com.challenge.modules.security.dto.GenerationTokenTest" time="0.001"/>
+  <testcase name="getId()" classname="br.com.challenge.modules.security.dto.GenerationTokenTest" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

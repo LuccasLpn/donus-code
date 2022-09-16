@@ -21,5 +21,6 @@ public class PersonPostRequestBody {
     @NotNull(message = "Cpf Cannot Be Null")
     @NotEmpty(message = "The Cpf cannot be empty")
     private String cpf;
+    @JsonIgnore
     private String authorities;
 }
