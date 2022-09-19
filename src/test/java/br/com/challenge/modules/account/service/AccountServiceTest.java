@@ -4,6 +4,9 @@ import br.com.challenge.modules.account.entity.Account;
 import br.com.challenge.modules.account.repository.AccountRepository;
 import br.com.challenge.modules.account.requests.AccountCreatePostRequestBody;
 import br.com.challenge.modules.account.requests.AccountPutRequestBody;
+import br.com.challenge.modules.account.requests.AccountTransferPutRequestBody;
+import br.com.challenge.modules.account.response.BalanceResponse;
+import br.com.challenge.modules.exception.BadRequestException;
 import br.com.challenge.modules.person.entity.Person;
 import br.com.challenge.modules.util.AccountCreator;
 import br.com.challenge.modules.util.PersonCreator;
@@ -53,6 +56,9 @@ class AccountServiceTest {
                 .thenReturn(Optional.of(AccountCreator.createAccountToValid()));
 
         BDDMockito.doNothing().when(accountRepository).delete(ArgumentMatchers.any(Account.class));
+
+        BDDMockito.when(accountRepository.findByBalance(ArgumentMatchers.anyString()))
+                .thenReturn(Optional.ofNullable(AccountCreator.createAccountToValid()));
 
     }
 
@@ -107,4 +113,40 @@ class AccountServiceTest {
     }
 
 
+    @Test
+    @DisplayName("Transfer Account When Successful")
+    void transfer_Account_When_Successful() {
+        Account expected = AccountCreator.createAccountToValid();
+        BDDMockito.when(accountRepository.save(ArgumentMatchers.any(Account.class)))
+                .thenReturn(expected);
+        Account expected2 = AccountCreator.createAccountToValid2();
+        BDDMockito.when(accountRepository.save(ArgumentMatchers.any(Account.class)))
+                .thenReturn(expected2);
+        Assertions.assertThatCode(() -> accountService.transfer(AccountCreator.createAccountTransferPutRequestBody()));
+    }
+
+    @Test
+    @DisplayName("Transfer Account When Failed")
+    void transfer_Account_When_Failed() {
+        AccountTransferPutRequestBody accountTransferPutRequestBody = AccountCreator.createAccountTransferPutRequestBody();
+        Account expected = AccountCreator.createAccountToValid();
+        BDDMockito.when(accountRepository.save(ArgumentMatchers.any(Account.class)))
+                .thenReturn(expected);
+        Account expected2 = AccountCreator.createAccountToValid2();
+        BDDMockito.when(accountRepository.save(ArgumentMatchers.any(Account.class)))
+                .thenReturn(expected2);
+        accountTransferPutRequestBody.getAccountDestiny().setValue(10000L);
+        Assertions.assertThatThrownBy(() -> accountService.transfer(accountTransferPutRequestBody))
+                .isInstanceOf(BadRequestException.class);
+    }
+
+    @Test
+    @DisplayName("findBalance Account When Successful")
+    void findBalance_Account_When_Successful() {
+        Account account = AccountCreator.createAccountToValid();
+        Person person = PersonCreator.createPersonValid();
+        BalanceResponse balanceResponse = accountService.findBalance(person.getFullName());
+        Assertions.assertThat(balanceResponse).isNotNull();
+        Assertions.assertThat(balanceResponse.getBalance()).isNotNull().isEqualTo(account.getBalance());
+    }
 }

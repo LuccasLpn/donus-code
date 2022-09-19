@@ -2,6 +2,7 @@ package br.com.challenge.modules.account.controller;
 
 import br.com.challenge.modules.account.requests.AccountCreatePostRequestBody;
 import br.com.challenge.modules.account.requests.AccountPutRequestBody;
+import br.com.challenge.modules.account.requests.AccountTransferPutRequestBody;
 import br.com.challenge.modules.account.response.BalanceResponse;
 import br.com.challenge.modules.account.service.AccountService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public class AccountController {
     @PostMapping(path = {"/create"})
     public ResponseEntity<AccountCreatePostRequestBody> createAccount(@RequestBody @Valid AccountCreatePostRequestBody accountCreatePostRequestBody) {
         AccountCreatePostRequestBody accountResponse = accountService.createAccount(accountCreatePostRequestBody);
-        return new ResponseEntity<>(accountResponse, HttpStatus.OK);
+        return new ResponseEntity<>(accountResponse, HttpStatus.CREATED);
     }
 
     @PostMapping(path = {"/deposit"})
@@ -35,9 +36,9 @@ public class AccountController {
         return new ResponseEntity<>(accountResponse, HttpStatus.OK);
     }
 
-    @PutMapping(path = {"/transfer/{fullname}/{cpf}"})
-    public ResponseEntity<Void> transfer(@RequestBody @Valid AccountPutRequestBody accountPutRequestBody, @PathVariable("fullname") String fullname, @PathVariable("cpf") String cpf) {
-        accountService.transfer(accountPutRequestBody, fullname, cpf);
+    @PutMapping(path = {"/transfer"})
+    public ResponseEntity<Void> transfer(@RequestBody @Valid AccountTransferPutRequestBody accountTransferPutRequestBody) {
+        accountService.transfer(accountTransferPutRequestBody);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     @DeleteMapping(path = {"/delete/{id}"})

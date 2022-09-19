@@ -32,13 +32,14 @@ public class SecurityConfig {
         authenticationManagerBuilder.userDetailsService(userService);
         http.csrf().disable().authorizeRequests()
                 .mvcMatchers(HttpMethod.POST, "/auth").permitAll()
+                .mvcMatchers( "/actuator/**").permitAll()
                 .mvcMatchers(HttpMethod.POST, "/account/create").permitAll()
                 .mvcMatchers(HttpMethod.DELETE, "/person/delete/**").hasAuthority("ADMIN")
                 .mvcMatchers(HttpMethod.DELETE, "/account/delete/**").hasAuthority("ADMIN")
                 .mvcMatchers("/swagger-ui/**").permitAll()
                 .mvcMatchers("/v3/api-docs/**").permitAll()
                 .anyRequest().authenticated();
-        http.addFilterBefore(new JwtAuthorizationFilter(jwtUtil, userService), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new JwtAuthorizationFilter(jwtUtil,userService), UsernamePasswordAuthenticationFilter.class);
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         return http.build();
     }

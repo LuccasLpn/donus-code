@@ -5,6 +5,7 @@ import br.com.challenge.modules.account.mapper.AccountMapper;
 import br.com.challenge.modules.account.repository.AccountRepository;
 import br.com.challenge.modules.account.requests.AccountCreatePostRequestBody;
 import br.com.challenge.modules.account.requests.AccountPutRequestBody;
+import br.com.challenge.modules.account.requests.AccountTransferPutRequestBody;
 import br.com.challenge.modules.account.response.BalanceResponse;
 import br.com.challenge.modules.exception.BadRequestException;
 import br.com.challenge.modules.exception.PSQLException;
@@ -14,8 +15,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -40,23 +42,33 @@ public class AccountService {
     public AccountPutRequestBody deposit(AccountPutRequestBody account) {
         accountRepository.deposit(account.getValue(),
                 account.getAgency(),
-                account.getAccount()).orElseThrow(() -> new PSQLException("Deposit failed"));
-        return account;}
+                account.getAccount())
+                .orElseThrow(() -> new PSQLException("Deposit failed value greater than allowed"));
+        return account;
+    }
 
     public AccountPutRequestBody withdraw(AccountPutRequestBody account) {
         accountRepository.withdraw(account.getValue(),
                 account.getAgency(),
                 account.getAccount()).orElseThrow(() -> new PSQLException("Withdraw failed"));
-        return account;}
+        return account;
+    }
 
     @Transactional
-    public void transfer(AccountPutRequestBody account, String fullname, String cpf) {
-        Account accountOut = accountRepository.findByFullNameAndCpf(fullname, cpf, account.getValue()).orElseThrow(() -> new BadRequestException("Agency or Count Not Found"));
-        accountOut.setBalance(accountOut.getBalance() - account.getValue());
-        Account accountIn = accountRepository.findByAgencyAndAccount(account.getAgency(), account.getAccount()).orElseThrow(() -> new BadRequestException("Agency or Count Not Found"));
-        accountIn.setBalance(accountIn.getBalance() + account.getValue());
-        accountRepository.save(accountIn);
-        accountRepository.save(accountOut);
+    public void transfer(AccountTransferPutRequestBody account) {
+        List<Account> accountList = new ArrayList<>();
+        Account accountOut = accountRepository.findByAgencyAndAccount(account.getAgency(), account.getAccount()).orElseThrow(() -> new BadRequestException("Agency or Count Not Found"));
+        if (accountOut.getBalance() < account.getAccountDestiny().getValue()){
+            throw new BadRequestException("Transfer amount greater than your balance");
+        }
+        accountOut.setBalance(accountOut.getBalance() - account.getAccountDestiny().getValue());
+        Account accountIn = accountRepository.findByAgencyAndAccount(account.getAccountDestiny().getAgency(),
+                account.getAccountDestiny().getAccount())
+                .orElseThrow(() -> new BadRequestException("Agency or Count Not Found"));
+        accountIn.setBalance(accountIn.getBalance() + account.getAccountDestiny().getValue());
+        accountList.add(accountIn);
+        accountList.add(accountOut);
+        accountRepository.saveAll(accountList);
     }
     public Account findByIdOrThrowBadRequestException(Long id) {
         return accountRepository.findById(id).orElseThrow(() -> new BadRequestException("Account Not Found"));

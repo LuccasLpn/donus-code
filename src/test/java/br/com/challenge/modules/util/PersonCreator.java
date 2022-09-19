@@ -16,6 +16,15 @@ public class PersonCreator {
                 .build();
     }
 
+    public static Person createPersonToBeSaved2(){
+        return Person
+                .builder()
+                .fullName("Luccas Pereira")
+                .cpf("48188562822")
+                .authorities("USER")
+                .build();
+    }
+
     public static Person createPersonValid(){
         return Person
                 .builder()

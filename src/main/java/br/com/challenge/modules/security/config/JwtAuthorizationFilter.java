@@ -4,6 +4,7 @@ import br.com.challenge.modules.security.service.UserDetailsServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,8 +20,8 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
-    private JwtUtil jwtUtil;
 
+    private JwtUtil jwtUtil1;
     private final UserDetailsServiceImpl userService;
 
 
@@ -38,6 +39,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     }
 
     private UsernamePasswordAuthenticationToken getAuthentication(String authorization) throws JsonProcessingException {
+        final JwtUtil jwtUtil = new JwtUtil();
         String token = authorization.substring(7);
         if (jwtUtil.isTokenValid(token)){
             var username = jwtUtil.getUsername(token);

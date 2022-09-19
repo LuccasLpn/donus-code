@@ -21,6 +21,3 @@ spring:
       enabled: 'true'
   database:
     driverClassName: org.h2.Driver
-security:
-  basic:
-    enabled: 'false'

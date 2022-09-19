@@ -2,6 +2,8 @@ package br.com.challenge.modules.account.controller;
 
 import br.com.challenge.modules.account.requests.AccountCreatePostRequestBody;
 import br.com.challenge.modules.account.requests.AccountPutRequestBody;
+import br.com.challenge.modules.account.requests.AccountTransferPutRequestBody;
+import br.com.challenge.modules.account.response.BalanceResponse;
 import br.com.challenge.modules.account.service.AccountService;
 import br.com.challenge.modules.security.config.JwtUtil;
 import br.com.challenge.modules.util.AccountCreator;
@@ -42,6 +44,10 @@ class AccountControllerTest {
 
 
         BDDMockito.doNothing().when(accountService).delete(ArgumentMatchers.anyLong());
+
+        BDDMockito.doNothing().when(accountService).transfer(ArgumentMatchers.any(AccountTransferPutRequestBody.class));
+
+        BDDMockito.when(accountService.findBalance(ArgumentMatchers.anyString())).thenReturn(AccountCreator.createBalanceResponse());
     }
 
     @Test
@@ -78,6 +84,24 @@ class AccountControllerTest {
         ResponseEntity<Void> entity = accountController.delete(1L);
         Assertions.assertThat(entity).isNotNull();
         Assertions.assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+    }
+
+    @Test
+    @DisplayName("Transfer Account When Successful")
+    void transfer_Account_When_Successful() {
+        AccountCreator.createAccountTransferPutRequestBody();
+        Assertions.assertThatCode(() -> accountController.transfer(AccountCreator.createAccountTransferPutRequestBody())).doesNotThrowAnyException();
+        ResponseEntity<Void> entity = accountController.transfer(AccountCreator.createAccountTransferPutRequestBody());
+        Assertions.assertThat(entity).isNotNull();
+        Assertions.assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+    }
+
+    @Test
+    @DisplayName("findBalance Account When Successful")
+    void findBalance_Account_When_Successful() {
+        ResponseEntity<BalanceResponse> entity = accountController.findBalance("Luccas Pereira Nunes");
+        Assertions.assertThat(entity).isNotNull();
+        Assertions.assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
 }
